@@ -128,7 +128,9 @@ custom:
                   lambdaFunctionArn: arn:aws:lambda:eu-west-1:809151134061:function:psy_aquascope # Where GraphqlLambdaFunction is the lambda function cloudformation resource created by serverless for the serverless function named graphql
                   serviceRoleArn:
                       Fn::GetAtt: [AppSyncLambdaServiceRole, Arn]
-
+    plugins:
+        - serverless-appsync-plugin
+        - serverless-pseudo-parameters
 resources:
     Resources:
         AppSyncLambdaServiceRole:
