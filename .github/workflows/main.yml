@@ -1,8 +1,5 @@
 name: Deploy Lambda
-run: |
-    npm install -g serverless
-    serverless plugin install -n serverless-appsync-plugin
-    serverless deploy
+
 on:
     push:
         branches:
@@ -21,10 +18,11 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: serverless deploy
-              uses: serverless/github-action@v3.2
-              with:
-                  args: deploy
+            - name: Install and deploy Serverless
+              run: |
+                  npm install -g serverless
+                  serverless plugin install -n serverless-appsync-plugin
+                  serverless deploy
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
