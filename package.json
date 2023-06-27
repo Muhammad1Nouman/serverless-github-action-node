@@ -9,10 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "serverless-pseudo-parameters": "^1.6.0"
-  },
   "devDependencies": {
-    "serverless-appsync-plugin": "^1.0.0"
+    "serverless-appsync-plugin": "^1.0.0",
+    "serverless-pseudo-parameters": "^2.6.1"
   }
 }
