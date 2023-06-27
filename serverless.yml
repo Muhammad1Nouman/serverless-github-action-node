@@ -1,0 +1,157 @@
+service: sls-appsync-backend
+
+plugins:
+    - serverless-appsync-plugin
+    - serverless-pseudo-parameters
+
+provider:
+    name: aws
+    runtime: python3.8
+    # profile: student1
+
+functions:
+    graphql:
+        handler: handler.lambda_handler
+
+custom:
+    accountId: 809151134061
+    appSync:
+        name: sls-appsync-api3
+        authenticationType: API_KEY
+        userPoolConfig:
+            awsRegion: eu-west-1
+            defaultAction: ALLOW
+            userPoolId: { Ref: CognitoUserPool }
+        mappingTemplates:
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: catchment_api
+              request: 'catchment_api_request.txt'
+              response: 'catchment_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: catchment
+              request: 'catchment_request.txt'
+              response: 'catchment_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: wqIndcatorFact_api
+              request: 'wq_indcator_fact_api_request.txt'
+              response: 'wq_indcator_fact_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: wqIndcatorFactId_api
+              request: 'wq_indcator_fact_id_api_request.txt'
+              response: 'wq_indcator_fact_id_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: waterQualityLookup
+              request: 'water_quality_lookup_request.txt'
+              response: 'water_quality_lookup_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: wqIndcatorDateRangeApi
+              request: 'wq_indcator_date_range_api_request.txt'
+              response: 'wq_indcator_date_range_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: liveSensorDataApi
+              request: 'live_sensor_data_api_request.txt'
+              response: 'live_sensor_data_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: userAccessLevelApi
+              request: 'user_access_level_request.txt'
+              response: 'user_access_level_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: meteoFactApi
+              request: 'meteo_fact_request.txt'
+              response: 'meteo_fact_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: meteoFactApi
+              request: 'meteo_fact_request.txt'
+              response: 'meteo_fact_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: subcatchmentApi
+              request: 'subcatchment_api_request.txt'
+              response: 'subcatchment_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: satelliteApi
+              request: 'satellite_api_request.txt'
+              response: 'satellite_api_response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incapStatApi
+              request: 'incap_stat_api-request.txt'
+              response: 'incap_stat_api-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incaOutputDsdFact
+              request: 'inca_output_dsd_fact-request.txt'
+              response: 'inca_output_dsd_fact-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incanStatApi
+              request: 'incan_stat_api-request.txt'
+              response: 'incan_stat_api-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incapDsdApi
+              request: 'incap_dsd_api-request.txt'
+              response: 'incap_dsd_api-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incanDsdApi
+              request: 'incan_dsd_api-request.txt'
+              response: 'incan_dsd_api-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incaDsdApi
+              request: 'inca_dsd_api-request.txt'
+              response: 'inca_dsd_api-response.txt'
+            - dataSource: awsLambdaDataSource
+              type: Query
+              field: incapTcApi
+              request: 'incap_tc_api-request.txt'
+              response: 'incap_tc_api-response.txt'
+        schema: # defaults schema.graphql
+        serviceRole: 'AppSyncServiceRole'
+        dataSources:
+            - type: AWS_LAMBDA
+              name: awsLambdaDataSource
+              description: 'Lambda DataSource'
+              config:
+                  lambdaFunctionArn: arn:aws:lambda:eu-west-1:809151134061:function:psy_aquascope # Where GraphqlLambdaFunction is the lambda function cloudformation resource created by serverless for the serverless function named graphql
+                  serviceRoleArn:
+                      Fn::GetAtt: [AppSyncLambdaServiceRole, Arn]
+
+resources:
+    Resources:
+        AppSyncLambdaServiceRole:
+            Type: 'AWS::IAM::Role'
+            Properties:
+                RoleName: 'Lambda-AppSyncLambdaServiceRole33'
+                AssumeRolePolicyDocument:
+                    Version: '2012-10-17'
+                    Statement:
+                        - Effect: 'Allow'
+                          Principal:
+                              Service:
+                                  - 'appsync.amazonaws.com'
+                          Action:
+                              - 'sts:AssumeRole'
+                Policies:
+                    - PolicyName: 'Lambda-AppSyncLambdaServiceRole-Policy33'
+                      PolicyDocument:
+                          Version: '2012-10-17'
+                          Statement:
+                              - Effect: 'Allow'
+                                Action:
+                                    - 'lambda:invokeFunction'
+                                Resource:
+                                    - Fn::Sub: 'arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-dev-graphql'
+                                    - Fn::Sub: 'arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-dev-graphql:*'

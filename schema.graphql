@@ -1,0 +1,153 @@
+type Catchment {
+	catchment: String
+	points: String
+	subCatchment: String
+}
+
+type CatchmentApi {
+	catchment: String
+	wq_indcator_fact: String
+	points: String
+}
+
+type IncaDsd {
+	incapDsd: String
+	incapPoints: String
+	incanDsd: String
+	incanPoints: String
+}
+
+type IncanDsd {
+	incanDsd: String
+	points: String
+}
+
+type IncanStat {
+	incanStat: String
+	points: String
+}
+
+type IncapDsd {
+	incapDsd: String
+	points: String
+}
+
+type IncapStat {
+	incapStat: String
+	points: String
+}
+
+type IncapTc {
+	incapTc: String
+	subCatchment: String
+}
+
+type Live_sensor_data {
+	live_sensor_data: String
+	points: String
+}
+
+type Meteo_Fact {
+	Result: String
+}
+
+type Satellite {
+	satelliteData: String
+	catchment: String
+}
+
+type Subcatchment {
+	subcatchment: String
+	catchment: String
+}
+
+type User {
+	access_level: Int
+}
+
+type WqIndcatorDateRange {
+	wq_indcator_fact: String
+	point: String
+}
+
+type Wq_indcator_fact {
+	wq_indcator_fact: String
+	points: String
+}
+
+type Wq_indcator_fact_id {
+	wq_indcator_fact: String
+}
+
+type WaterQualityLookup {
+	waterQualityLookup: String
+}
+
+input Reaches {
+	reaches: [String!]!
+}
+
+type IncaOutputDsdFact {
+	incapOutputDsdFact: String
+	incapOutputDsdFactPoints: String
+	incanOutputDsdFact: String
+	incanOutputDsdFactPoints: String
+}
+
+type Query {
+	incaOutputDsdFact(
+		reaches: Reaches!
+		startDate: String
+		endDate: String
+		catchment_id: Int
+	): IncaOutputDsdFact!
+	catchment_api(name: String): CatchmentApi!
+	catchment(name: String): Catchment!
+	incapStatApi(
+		date: String
+		aggregate: String
+		catchment_id: Float
+	): IncapStat!
+	incanStatApi(
+		date: String
+		aggregate: String
+		catchment_id: Float
+	): IncanStat!
+	wqIndcatorFact_api(catchment_id: Float, indicator_id: Int): Wq_indcator_fact
+	wqIndcatorFactId_api(catchment_id: Float): Wq_indcator_fact_id
+	liveSensorDataApi(
+		startDate: String
+		endDate: String
+		catchment_id: Int
+	): Live_sensor_data
+	incaDsdApi(startDate: String, endDate: String, catchment_id: Int): IncaDsd
+	incapDsdApi(startDate: String, endDate: String, catchment_id: Int): IncapDsd
+	incanDsdApi(startDate: String, endDate: String, catchment_id: Int): IncanDsd
+	incapTcApi(startDate: String, endDate: String, catchment_id: Int): IncapTc
+	wqIndcatorDateRangeApi(
+		startDate: String
+		endDate: String
+		catchment_id: Int
+	): WqIndcatorDateRange
+	waterQualityLookup(
+		regulatory: String
+		water_quality_indicator: String
+		catchment_id: Int
+	): WaterQualityLookup!
+	satelliteApi(
+		startDate: String
+		endDate: String
+		catchment_id: Int
+	): Satellite
+	userAccessLevelApi(user_id: Int): User!
+	meteoFactApi(
+		startDate: String
+		endDate: String
+		catchment_id: Int
+	): Meteo_Fact
+	subcatchmentApi(subcatchment_name: String, catchment_id: Int): Subcatchment!
+}
+
+schema {
+	query: Query
+}
