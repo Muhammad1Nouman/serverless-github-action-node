@@ -1,9 +1,8 @@
 service: sls-appsync-backend
 
 plugins:
-    - serverless-appsync-plugin
     - serverless-pseudo-parameters
-
+    - serverless-appsync-plugin
 provider:
     name: aws
     runtime: python3.8
@@ -118,7 +117,7 @@ custom:
               field: incapTcApi
               request: 'incap_tc_api-request.txt'
               response: 'incap_tc_api-response.txt'
-        schema: # defaults schema.graphql
+        schema: schema.graphql
         serviceRole: 'AppSyncServiceRole'
         dataSources:
             - type: AWS_LAMBDA
