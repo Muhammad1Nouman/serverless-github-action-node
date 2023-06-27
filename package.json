@@ -11,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "serverless-appsync-plugin": "^1.0.0",
-    "serverless-pseudo-parameters": "^2.6.1"
+    "serverless-pseudo-parameters": "^1.6.0"
   }
 }

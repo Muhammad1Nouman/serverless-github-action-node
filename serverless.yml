@@ -1,8 +1,8 @@
 service: sls-appsync-backend
 
 plugins:
-    - serverless-pseudo-parameters
-    - serverless-appsync-plugin
+  - serverless-appsync-plugin
+  - serverless-pseudo-parameters
 provider:
     name: aws
     runtime: python3.8
