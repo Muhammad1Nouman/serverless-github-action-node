@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "serverless-appsync-plugin": "^1.0.0",
     "serverless-pseudo-parameters": "^1.6.0"
+  },
+  "devDependencies": {
+    "serverless-appsync-plugin": "^2.2.1"
   }
 }
